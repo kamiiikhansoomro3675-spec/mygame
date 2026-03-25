@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Picker Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #f4f4f4;
+    }
+    h1 {
+        margin-top: 20px;
+    }
+    #colorCode {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 20px;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .box {
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+    #message {
+        font-size: 20px;
+        margin-top: 15px;
+    }
+    button {
+        padding: 10px 20px;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<h1>Color Picker Game</h1>
+<p>Guess the correct color!</p>
+<div id="colorCode"></div>
+
+<div class="container" id="boxes"></div>
+
+<p id="message"></p>
+<button onclick="resetGame()">New Game</button>
+
+<script>
+let correctColor;
+
+// Predefined color names
+const colorList = [
+    "red", "blue", "green", "yellow", "purple", "orange",
+    "pink", "brown", "black", "gray", "cyan", "magenta"
+];
+
+function getRandomColor() {
+    return colorList[Math.floor(Math.random() * colorList.length)];
+}
+
+function setupGame() {
+    const boxesContainer = document.getElementById("boxes");
+    boxesContainer.innerHTML = "";
+
+    let colors = [];
+    for (let i = 0; i < 6; i++) {
+        let color = getRandomColor();
+        colors.push(color);
+
+        let box = document.createElement("div");
+        box.classList.add("box");
+        box.style.background = color;
+
+        box.addEventListener("click", function() {
+            if (color === correctColor) {
+                document.getElementById("message").textContent = "Correct!";
+                document.body.style.background = correctColor;
+            } else {
+                this.style.visibility = "hidden";
+                document.getElementById("message").textContent = "Try Again";
+            }
+        });
+
+        boxesContainer.appendChild(box);
+    }
+
+    correctColor = colors[Math.floor(Math.random() * colors.length)];
+    document.getElementById("colorCode").textContent = correctColor.toUpperCase();
+    document.getElementById("message").textContent = "";
+    document.body.style.background = "#f4f4f4";
+}
+
+function resetGame() {
+    setupGame();
+}
+
+setupGame();
+</script>
+
+</body>
+</html>
